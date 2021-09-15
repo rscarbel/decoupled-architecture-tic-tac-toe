@@ -17,8 +17,6 @@ function aiPlays (difficulty) {
     aiPlaysMedium()
   } else if (difficulty === 'hard') {
     aiPlaysHard();
-  } else if (difficulty === 'impossible') {
-    aiPlaysImpossible();
   }
 };
 
@@ -54,7 +52,6 @@ function aiPlaysEasy (choice=0,attempts=0) {
 }
 
 function aiPlaysMedium () {
-  //javascript
   testCondition = currentPlacement === 'O' ? 'X':'O';
   for(let i = 0; i < squares.length;i++){
     if (testWinningMove(i,testCondition)){
@@ -73,10 +70,6 @@ function aiPlaysHard (choice) {
     }
   }
   aiPlaysMedium()
-}
-
-function aiPlaysImpossible () {
-  //javascript
 }
 
 function aiPopulateSquare (index) {
