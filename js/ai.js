@@ -55,9 +55,9 @@ function aiPlaysEasy (choice=0,attempts=0) {
 
 function aiPlaysMedium () {
   //javascript
+  testCondition = currentPlacement === 'O' ? 'X':'O';
   for(let i = 0; i < squares.length;i++){
-    if (testWinningMove(i,'X')){
-      console.log('The medium condition was executed')
+    if (testWinningMove(i,testCondition)){
       aiPopulateSquare(i)
       return;
     }
@@ -68,7 +68,6 @@ function aiPlaysMedium () {
 function aiPlaysHard (choice) {
   for(let i = 0; i < squares.length;i++){
     if (testWinningMove(i,currentPlacement)){
-      console.log('The hard condition was executed')
       aiPopulateSquare(i);
       return;
     }
@@ -83,7 +82,6 @@ function aiPlaysImpossible () {
 function aiPopulateSquare (index) {
   let dimensionIndex = findDimensionalIndex(index);
   if(!(currentBoard[dimensionIndex[0]][dimensionIndex[1]] === '')){
-    console.log(currentBoard[dimensionIndex[0]][dimensionIndex[1]])
     index = generateSquareChoice()
   }
   while (index === undefined) {
