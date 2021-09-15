@@ -36,7 +36,6 @@ function duplicateGame () {
 function testWinningMove(move,player=currentPlacement) {
   let dimensionIndex = findDimensionalIndex(move)
   if(currentBoard[dimensionIndex[0]][dimensionIndex[1]] === ('X' || 'O')){
-
     return false;
   }
   let duplicateBoard = duplicateGame();
@@ -82,10 +81,9 @@ function aiPlaysImpossible () {
 }
 
 function aiPopulateSquare (index) {
-  console.log(index)
   let dimensionIndex = findDimensionalIndex(index);
-  console.log(currentBoard[dimensionIndex[0]][dimensionIndex[1]])
-  if(!currentBoard[dimensionIndex[0]][dimensionIndex[1]] === ''){
+  if(!(currentBoard[dimensionIndex[0]][dimensionIndex[1]] === '')){
+    console.log(currentBoard[dimensionIndex[0]][dimensionIndex[1]])
     index = generateSquareChoice()
   }
   while (index === undefined) {
