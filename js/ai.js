@@ -36,20 +36,20 @@ function duplicateGame () {
 function testWinningMove(move,player=currentPlacement) {
   let duplicateBoard = duplicateGame();
   let squareToTest = findDimensionalIndex(move);
-  if (duplicateBoard[squareToTest[0]][squareToTest[1]]) {
+  if (currentBoard[dimensionIndex[0]][dimensionIndex[1]]) {
     return false;
   }
   duplicateBoard[squareToTest[0]][squareToTest[1]] = player;
   return checkVictoryConditions(duplicateBoard);
 }
 
-function aiPlaysEasy (choice,attempts=0) {
+function aiPlaysEasy (choice=0,attempts=0) {
   attempts++
   if (choice===undefined) {
-    aiPlaysMedium(generateSquareChoice(),attempts);
+    aiPlaysEasy(generateSquareChoice(),attempts);
   }
   if (!testWinningMove(choice) && (attempts <= 2)){
-    aiPlaysMedium(generateSquareChoice(),attempts);
+    aiPlaysEasy(generateSquareChoice(),attempts);
   } else {
     aiPopulateSquare(choice);
   }
