@@ -3,11 +3,6 @@ const squaresIds = [];
 let currentPlacement = 'X'
 let threshold = Math.sqrt(squares.length);
 
-let victoryCombinations = []
-for (let i = 0; i < threshold + 2; i++) {
-  victoryCombinations[i] = [];
-}
-
 let currentBoard = []
 for (let firstTierIndex = 0; firstTierIndex < threshold; firstTierIndex++) {
   currentBoard.push([]);
@@ -38,30 +33,31 @@ const addCurrentPlayToBoard = index => {
   currentBoard[dimensionIndex[0]][dimensionIndex[1]] = currentPlacement;
 }
 
-const populateSquare = event => {
+const playerPopulateSquare = event => {
   let dimensionIndex = findDimensionalIndex(event.target.id)
-  if (!currentBoard[dimensionIndex[0]][dimensionIndex[1]]){
-    event.target.textContent = currentPlacement;
-    addCurrentPlayToBoard(event.target.id)
-    console.log(checkVictoryConditions())
-    if (currentPlacement === 'X') {
-      currentPlacement = 'O';
-    } else {
-      currentPlacement = 'X';
-    }
+  event.target.textContent = currentPlacement;
+  addCurrentPlayToBoard(event.target.id)
+  if (checkVictoryConditions()) {
+    alert(`Player ${currentPlacement} won!`)
+  } else {
+    changePlayer();
+  }
+}
+
+function changePlayer () {
+  if (currentPlacement === 'X') {
+    currentPlacement = 'O';
+  } else {
+    currentPlacement = 'X';
   }
 }
 
 //IIFE to add event listeners to squares
 (function() {
   squares.forEach(item => {
-    item.addEventListener('click', populateSquare);
+    item.addEventListener('click', playerPopulateSquare);
   })
 })();
-
-const populateVictoryCombinations = index => {
-
-}
 
 //checks victory conditions for any sized board
 const checkVictoryConditions = () => {
