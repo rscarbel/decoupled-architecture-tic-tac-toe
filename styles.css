@@ -1,0 +1,45 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@100;300&display=swap');
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Roboto', sans-serif;
+  font-weight: 300;
+}
+
+.game-board {
+  display: grid;
+  margin: 10% auto;
+  gap: 10px;
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-rows: 1fr 1fr 1fr;
+  max-width:620px;
+  max-height: 620px;
+}
+
+.square {
+  display: flex;
+  text-align: center;
+  justify-content: center;
+  align-items: center;
+  height: 200px;
+  width: 200px;
+  background-color: #5e5e5e;
+  border-radius: 10px;
+  color: #FFFFFF;
+  font-size: 100px;
+}
+
+.square:hover {
+  cursor: pointer;
+  background-color: #888888;
+}
+
+@media only screen & (max-width: 800) {
+  .square {
+    height: 150px;
+    width: 150px;
+  }
+}
