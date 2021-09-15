@@ -1,4 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@100;300&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Montserrat&display=swap');
 
 * {
   box-sizing: border-box;
@@ -20,10 +21,12 @@ body {
 }
 
 .square {
+  font-family: 'Montserrat', sans-serif;
   display: flex;
   text-align: center;
   justify-content: center;
   align-items: center;
+  line-height: 1;
   height: 200px;
   width: 200px;
   background-color: #5e5e5e;
