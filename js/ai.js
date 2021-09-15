@@ -34,20 +34,19 @@ function duplicateGame () {
 }
 
 function testWinningMove(move,player=currentPlacement) {
-  let duplicateBoard = duplicateGame();
-  let squareToTest = findDimensionalIndex(move);
-  if (currentBoard[dimensionIndex[0]][dimensionIndex[1]]) {
+  let dimensionIndex = findDimensionalIndex(move)
+  if(currentBoard[dimensionIndex[0]][dimensionIndex[1]] === ('X' || 'O')){
+
     return false;
   }
+  let duplicateBoard = duplicateGame();
+  let squareToTest = findDimensionalIndex(move);
   duplicateBoard[squareToTest[0]][squareToTest[1]] = player;
   return checkVictoryConditions(duplicateBoard);
 }
 
 function aiPlaysEasy (choice=0,attempts=0) {
   attempts++
-  if (choice===undefined) {
-    aiPlaysEasy(generateSquareChoice(),attempts);
-  }
   if (!testWinningMove(choice) && (attempts <= 2)){
     aiPlaysEasy(generateSquareChoice(),attempts);
   } else {
@@ -58,7 +57,8 @@ function aiPlaysEasy (choice=0,attempts=0) {
 function aiPlaysMedium () {
   //javascript
   for(let i = 0; i < squares.length;i++){
-    if (testWinningMove(i,!currentPlacement)){
+    if (testWinningMove(i,'X')){
+      console.log('The medium condition was executed')
       aiPopulateSquare(i)
       return;
     }
@@ -66,10 +66,10 @@ function aiPlaysMedium () {
   aiPlaysEasy()
 }
 
-function aiPlaysHard (choice,bestchoice,attempts=0) {
-
+function aiPlaysHard (choice) {
   for(let i = 0; i < squares.length;i++){
     if (testWinningMove(i,currentPlacement)){
+      console.log('The hard condition was executed')
       aiPopulateSquare(i);
       return;
     }
@@ -82,7 +82,13 @@ function aiPlaysImpossible () {
 }
 
 function aiPopulateSquare (index) {
-  while (index === undefined || (document.querySelector(`.S${squaresIds[index]}`) === null)) {
+  console.log(index)
+  let dimensionIndex = findDimensionalIndex(index);
+  console.log(currentBoard[dimensionIndex[0]][dimensionIndex[1]])
+  if(!currentBoard[dimensionIndex[0]][dimensionIndex[1]] === ''){
+    index = generateSquareChoice()
+  }
+  while (index === undefined) {
     index = generateSquareChoice()
   }
   turnsTaken++;

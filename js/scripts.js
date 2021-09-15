@@ -3,7 +3,7 @@ const squaresIds = [];
 let currentPlacement = 'X'
 let threshold = Math.sqrt(squares.length);
 let turnsTaken = 0
-let aiLevel = 'easy'
+let aiLevel = 'hard'
 
 let currentBoard = []
 for (let firstTierIndex = 0; firstTierIndex < threshold; firstTierIndex++) {
