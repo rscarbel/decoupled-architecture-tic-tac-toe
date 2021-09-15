@@ -43,6 +43,7 @@ const populateSquare = event => {
   if (!currentBoard[dimensionIndex[0]][dimensionIndex[1]]){
     event.target.textContent = currentPlacement;
     addCurrentPlayToBoard(event.target.id)
+    console.log(checkVictoryConditions())
     if (currentPlacement === 'X') {
       currentPlacement = 'O';
     } else {
@@ -63,14 +64,16 @@ const populateVictoryCombinations = index => {
 }
 
 //checks victory conditions for any sized board
-const checkVictoryConditions = (index) => {
+const checkVictoryConditions = () => {
 
   let row = (function () {
     for (let i = 0; i < threshold; i++){
       if (currentBoard[i][0]){
-        if (currentBoard[i].every(currentBoard[i].textContent === currentBoard[0])) {
+        if (currentBoard[i].every(item => item === currentBoard[i][0])) {
           return true;
         }
+      } else {
+        break;
       }
     }
     return false;
@@ -81,7 +84,7 @@ const checkVictoryConditions = (index) => {
       if (currentBoard[0][i]){
         let counter = 0;
         for(let j = 0; j < threshold; j++) {
-          if (!currentBoard[j][i]textContent === currentBoard[0][i])) {
+          if (!(currentBoard[j][i] === currentBoard[0][i])) {
             break;
           } else {
             counter++;
@@ -96,17 +99,31 @@ const checkVictoryConditions = (index) => {
   })();
 
   let diagonal = (function () {
-    for (let i = 0;i < threshold; i + threshold) {
+    for (let i = 0;i < squaresIds.length; i += threshold + 1) {
       if (currentBoard[0][0]) {
-        let currentSquare = (findDimensionalIndex(i))
-        if (!currentBoard[currentSquare[0][currentSquare[1]]] === currentBoard[0][0]){
+        let currentSquare = (findDimensionalIndex(i));
+        if (!(currentBoard[currentSquare[0]][currentSquare[1]] === currentBoard[0][0])){
           break;
         } else {
-          if ()
+          if (i === (squaresIds.length - 1)) {
+            return true;
+          }
         }
       }
     }
+    for (let i = threshold - 1; i < squaresIds.length; i += threshold - 1){
+      if (currentBoard[0][threshold - 1]) {
+        let currentSquare = (findDimensionalIndex(i))
+        if (!(currentBoard[currentSquare[0]][currentSquare[1]] === currentBoard[0][threshold-1])){
+          break;
+        } else{
+          if (i === (squaresIds.length - threshold)) {
+            return true;
+          }
+        }
+      }
+    }
+    return false;
   })();
-
   return (row || column || diagonal)
 }
