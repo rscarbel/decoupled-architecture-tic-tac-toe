@@ -66,7 +66,7 @@ const populateVictoryCombinations = index => {
 const checkVictoryConditions = (index) => {
 
   let row = (function () {
-    for (let i = 0; i < currentBoard.length; i++){
+    for (let i = 0; i < threshold; i++){
       if (currentBoard[i][0]){
         if (currentBoard[i].every(currentBoard[i].textContent === currentBoard[0])) {
           return true;
@@ -77,12 +77,36 @@ const checkVictoryConditions = (index) => {
   })();
 
   let column = (function () {
-
+    for (let i = 0; i < threshold; i++){
+      if (currentBoard[0][i]){
+        let counter = 0;
+        for(let j = 0; j < threshold; j++) {
+          if (!currentBoard[j][i]textContent === currentBoard[0][i])) {
+            break;
+          } else {
+            counter++;
+            if (counter === threshold) {
+              return true;
+            }
+          }
+        }
+      }
+    }
+    return false;
   })();
 
   let diagonal = (function () {
-
+    for (let i = 0;i < threshold; i + threshold) {
+      if (currentBoard[0][0]) {
+        let currentSquare = (findDimensionalIndex(i))
+        if (!currentBoard[currentSquare[0][currentSquare[1]]] === currentBoard[0][0]){
+          break;
+        } else {
+          if ()
+        }
+      }
+    }
   })();
 
-  return (row && column && diagonal)
+  return (row || column || diagonal)
 }
