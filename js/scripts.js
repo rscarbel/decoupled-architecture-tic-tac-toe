@@ -61,7 +61,6 @@ function changePlayer () {
 
 //checks victory conditions for any sized board
 const checkVictoryConditions = () => {
-
   let row = (function () {
     for (let i = 0; i < threshold; i++){
       if (currentBoard[i][0]){

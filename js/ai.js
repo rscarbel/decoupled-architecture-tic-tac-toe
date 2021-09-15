@@ -1,26 +1,29 @@
 let aiDifficulty = 'easy'
 
 const generateSquareChoice = (0, squaresIds.length) => {
-  return Math.floor(Math.random() * (squaresIds.length)
+  let squareChoice = Math.floor(Math.random() * (squaresIds.length);
+  let resultingSquare = findDimensionalIndex(squareChoice)
+
+  while (currentBoard[squareChoice[0]][squareChoice[1]]) {
+    squareChoice = findDimensionalIndex(Math.floor(Math.random() * (squaresIds.length))
+  }
+  return squareChoice;
 }
 
-let squareChoice = 0;
-
-const aiPlays(difficulty) {
+const aiPlays = difficulty => {
   if (difficulty === 'easy') {
-    aiPlaysEasy()
+    aiPlaysEasy();
   } else if (difficulty === 'medium') {
     aiPlaysMedium()
   } else if (difficulty === 'hard') {
-    aiPlaysHard()
+    aiPlaysHard();
   } else if (difficulty === 'impossible') {
-    aiPlaysImpossible()
+    aiPlaysImpossible();
   }
-}
+};
 
 function aiPlaysEasy () {
-  while (document.querySelector(`{square}`))
-  if (!)
+  aiPopulateSquare(generateSquareChoice())
 }
 
 function aiPlaysMedium () {
@@ -33,4 +36,15 @@ function aiPlaysHard () {
 
 function aiPlaysImpossible () {
   //javascript
+}
+
+const aiPopulateSquare = index => {
+  let targetSquare = document.querySelector(`#${index}`);
+  targetSquare.textContent = currentPlacement;
+  addCurrentPlayToBoard(index)
+  if (checkVictoryConditions()) {
+    alert(`Player ${currentPlacement} won!`)
+  } else {
+    changePlayer();
+  }
 }
