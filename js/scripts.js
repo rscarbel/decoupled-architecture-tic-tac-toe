@@ -2,6 +2,7 @@ const squares = document.querySelectorAll('.square');
 const squaresIds = [];
 let currentPlacement = 'X'
 let threshold = Math.sqrt(squares.length);
+let turnsTaken = 0
 
 let currentBoard = []
 for (let firstTierIndex = 0; firstTierIndex < threshold; firstTierIndex++) {
@@ -19,28 +20,41 @@ const findDimensionalIndex = index => {
 }
 
 //IIFE to give squares Ids
-(function() {
+(function populateIndices () {
   let currentIndex = 0;
   squares.forEach(item => {
     item.id = currentIndex;
-    squaresIds.push(currentIndex)
+    item.classList.add(`S${currentIndex}`);
+    squaresIds.push(currentIndex);
     currentIndex++;
   })
 })();
 
 const addCurrentPlayToBoard = index => {
-  dimensionIndex = findDimensionalIndex(index)
+  dimensionIndex = findDimensionalIndex(index);
   currentBoard[dimensionIndex[0]][dimensionIndex[1]] = currentPlacement;
 }
 
 const playerPopulateSquare = event => {
-  let dimensionIndex = findDimensionalIndex(event.target.id)
+  let dimensionIndex = findDimensionalIndex(event.target.id);
+  if(currentBoard[dimensionIndex[0]][dimensionIndex[1]]) {
+    alert('Please pick a valid square!');
+    return
+  }
+  turnsTaken++;
+  if (turnsTaken > squares.length) {
+    alert('the game is already over')
+    return;
+  }
   event.target.textContent = currentPlacement;
   addCurrentPlayToBoard(event.target.id)
   if (checkVictoryConditions()) {
     alert(`Player ${currentPlacement} won!`)
   } else {
     changePlayer();
+    if (turnsTaken < squares.length) {
+    aiPlays('easy')
+    }
   }
 }
 
@@ -64,11 +78,10 @@ const checkVictoryConditions = () => {
   let row = (function () {
     for (let i = 0; i < threshold; i++){
       if (currentBoard[i][0]){
+        console.log(currentBoard[i])
         if (currentBoard[i].every(item => item === currentBoard[i][0])) {
           return true;
         }
-      } else {
-        break;
       }
     }
     return false;
@@ -94,25 +107,25 @@ const checkVictoryConditions = () => {
   })();
 
   let diagonal = (function () {
-    for (let i = 0;i < squaresIds.length; i += threshold + 1) {
+    for (let i = 0;i < squares.length; i += threshold + 1) {
       if (currentBoard[0][0]) {
         let currentSquare = (findDimensionalIndex(i));
         if (!(currentBoard[currentSquare[0]][currentSquare[1]] === currentBoard[0][0])){
           break;
         } else {
-          if (i === (squaresIds.length - 1)) {
+          if (i === (squares.length - 1)) {
             return true;
           }
         }
       }
     }
-    for (let i = threshold - 1; i < squaresIds.length; i += threshold - 1){
+    for (let i = threshold - 1; i < squares.length; i += threshold - 1){
       if (currentBoard[0][threshold - 1]) {
         let currentSquare = (findDimensionalIndex(i))
         if (!(currentBoard[currentSquare[0]][currentSquare[1]] === currentBoard[0][threshold-1])){
           break;
         } else{
-          if (i === (squaresIds.length - threshold)) {
+          if (i === (squares.length - threshold)) {
             return true;
           }
         }

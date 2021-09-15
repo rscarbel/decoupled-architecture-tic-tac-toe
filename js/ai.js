@@ -1,16 +1,19 @@
 let aiDifficulty = 'easy'
 
-const generateSquareChoice = (0, squaresIds.length) => {
-  let squareChoice = Math.floor(Math.random() * (squaresIds.length);
-  let resultingSquare = findDimensionalIndex(squareChoice)
+const generateSquareChoice = () => {
+  let squareChoice = Math.floor(Math.random() * (squares.length));
+  let resultingSquare = findDimensionalIndex(squareChoice);
 
-  while (currentBoard[squareChoice[0]][squareChoice[1]]) {
-    squareChoice = findDimensionalIndex(Math.floor(Math.random() * (squaresIds.length))
+
+  if (currentBoard[resultingSquare[0]][resultingSquare[1]]) {
+    generateSquareChoice()
+  } else {
+    console.log(`current board square position --> ${currentBoard[resultingSquare[0]][resultingSquare[1]]}`)
+    return squareChoice;
   }
-  return squareChoice;
 }
 
-const aiPlays = difficulty => {
+function aiPlays (difficulty) {
   if (difficulty === 'easy') {
     aiPlaysEasy();
   } else if (difficulty === 'medium') {
@@ -38,10 +41,20 @@ function aiPlaysImpossible () {
   //javascript
 }
 
-const aiPopulateSquare = index => {
-  let targetSquare = document.querySelector(`#${index}`);
+function aiPopulateSquare (index) {
+  console.log(index)
+  while (index === undefined || (document.querySelector(`.S${squaresIds[index]}`) === null)) {
+    index = generateSquareChoice()
+    console.log(index)
+  }
+  turnsTaken++;
+  if (turnsTaken > squares.length) {
+    alert('the game is already over')
+    return;
+  }
+  let targetSquare = document.querySelector(`.S${squaresIds[index]}`);
   targetSquare.textContent = currentPlacement;
-  addCurrentPlayToBoard(index)
+  addCurrentPlayToBoard(index);
   if (checkVictoryConditions()) {
     alert(`Player ${currentPlacement} won!`)
   } else {
