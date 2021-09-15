@@ -3,6 +3,7 @@ const squaresIds = [];
 let currentPlacement = 'X'
 let threshold = Math.sqrt(squares.length);
 let turnsTaken = 0
+let aiLevel = 'medium'
 
 let currentBoard = []
 for (let firstTierIndex = 0; firstTierIndex < threshold; firstTierIndex++) {
@@ -53,7 +54,7 @@ const playerPopulateSquare = event => {
   } else {
     changePlayer();
     if (turnsTaken < squares.length) {
-    aiPlays('easy')
+    aiPlays(aiLevel)
     }
   }
 }
@@ -74,12 +75,11 @@ function changePlayer () {
 })();
 
 //checks victory conditions for any sized board
-const checkVictoryConditions = () => {
+const checkVictoryConditions = (gameStatus=currentBoard) => {
   let row = (function () {
     for (let i = 0; i < threshold; i++){
-      if (currentBoard[i][0]){
-        console.log(currentBoard[i])
-        if (currentBoard[i].every(item => item === currentBoard[i][0])) {
+      if (gameStatus[i][0]){
+        if (gameStatus[i].every(item => item === gameStatus[i][0])) {
           return true;
         }
       }
@@ -89,10 +89,10 @@ const checkVictoryConditions = () => {
 
   let column = (function () {
     for (let i = 0; i < threshold; i++){
-      if (currentBoard[0][i]){
+      if (gameStatus[0][i]){
         let counter = 0;
         for(let j = 0; j < threshold; j++) {
-          if (!(currentBoard[j][i] === currentBoard[0][i])) {
+          if (!(gameStatus[j][i] === gameStatus[0][i])) {
             break;
           } else {
             counter++;
@@ -108,9 +108,9 @@ const checkVictoryConditions = () => {
 
   let diagonal = (function () {
     for (let i = 0;i < squares.length; i += threshold + 1) {
-      if (currentBoard[0][0]) {
+      if (gameStatus[0][0]) {
         let currentSquare = (findDimensionalIndex(i));
-        if (!(currentBoard[currentSquare[0]][currentSquare[1]] === currentBoard[0][0])){
+        if (!(gameStatus[currentSquare[0]][currentSquare[1]] === gameStatus[0][0])){
           break;
         } else {
           if (i === (squares.length - 1)) {
@@ -120,9 +120,9 @@ const checkVictoryConditions = () => {
       }
     }
     for (let i = threshold - 1; i < squares.length; i += threshold - 1){
-      if (currentBoard[0][threshold - 1]) {
+      if (gameStatus[0][threshold - 1]) {
         let currentSquare = (findDimensionalIndex(i))
-        if (!(currentBoard[currentSquare[0]][currentSquare[1]] === currentBoard[0][threshold-1])){
+        if (!(gameStatus[currentSquare[0]][currentSquare[1]] === gameStatus[0][threshold-1])){
           break;
         } else{
           if (i === (squares.length - threshold)) {

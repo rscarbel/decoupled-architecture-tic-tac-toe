@@ -1,5 +1,3 @@
-let aiDifficulty = 'easy'
-
 const generateSquareChoice = () => {
   let squareChoice = Math.floor(Math.random() * (squares.length));
   let resultingSquare = findDimensionalIndex(squareChoice);
@@ -8,7 +6,6 @@ const generateSquareChoice = () => {
   if (currentBoard[resultingSquare[0]][resultingSquare[1]]) {
     generateSquareChoice()
   } else {
-    console.log(`current board square position --> ${currentBoard[resultingSquare[0]][resultingSquare[1]]}`)
     return squareChoice;
   }
 }
@@ -25,16 +22,59 @@ function aiPlays (difficulty) {
   }
 };
 
-function aiPlaysEasy () {
-  aiPopulateSquare(generateSquareChoice())
+function duplicateGame () {
+  let duplicateBoard = []
+  for (let i = 0;i < threshold; i++){
+    duplicateBoard.push([])
+    for (let j = 0;j < threshold;j++){
+      duplicateBoard[i].push(currentBoard[i][j])
+    }
+  }
+  return duplicateBoard
+}
+
+function testWinningMove(move,player=currentPlacement) {
+  let duplicateBoard = duplicateGame();
+  let squareToTest = findDimensionalIndex(move);
+  if (duplicateBoard[squareToTest[0]][squareToTest[1]]) {
+    return false;
+  }
+  duplicateBoard[squareToTest[0]][squareToTest[1]] = player;
+  return checkVictoryConditions(duplicateBoard);
+}
+
+function aiPlaysEasy (choice,attempts=0) {
+  attempts++
+  if (choice===undefined) {
+    aiPlaysMedium(generateSquareChoice(),attempts);
+  }
+  if (!testWinningMove(choice) && (attempts <= 2)){
+    aiPlaysMedium(generateSquareChoice(),attempts);
+  } else {
+    aiPopulateSquare(choice);
+  }
 }
 
 function aiPlaysMedium () {
   //javascript
+  for(let i = 0; i < squares.length;i++){
+    if (testWinningMove(i,!currentPlacement)){
+      aiPopulateSquare(i)
+      return;
+    }
+  }
+  aiPlaysEasy()
 }
 
-function aiPlaysHard () {
-  //javascript
+function aiPlaysHard (choice,bestchoice,attempts=0) {
+
+  for(let i = 0; i < squares.length;i++){
+    if (testWinningMove(i,currentPlacement)){
+      aiPopulateSquare(i);
+      return;
+    }
+  }
+  aiPlaysMedium()
 }
 
 function aiPlaysImpossible () {
@@ -42,10 +82,8 @@ function aiPlaysImpossible () {
 }
 
 function aiPopulateSquare (index) {
-  console.log(index)
   while (index === undefined || (document.querySelector(`.S${squaresIds[index]}`) === null)) {
     index = generateSquareChoice()
-    console.log(index)
   }
   turnsTaken++;
   if (turnsTaken > squares.length) {
