@@ -3,12 +3,24 @@ const squaresIds = [];
 let currentPlacement = 'X'
 let threshold = Math.sqrt(squares.length);
 
+let victoryCombinations = []
+for (let i = 0; i < threshold + 2; i++) {
+  victoryCombinations[i] = [];
+}
+
 let currentBoard = []
 for (let firstTierIndex = 0; firstTierIndex < threshold; firstTierIndex++) {
   currentBoard.push([]);
   for (let secondTierIndex = 0; secondTierIndex < threshold; secondTierIndex++) {
     currentBoard[firstTierIndex][secondTierIndex] = '';
   }
+}
+
+const findDimensionalIndex = index => {
+  index = parseInt(index)
+  let firstTierIndex = Math.floor(index / threshold);
+  let secondTierIndex = index % threshold;
+  return [firstTierIndex,secondTierIndex]
 }
 
 //IIFE to give squares Ids
@@ -22,17 +34,13 @@ for (let firstTierIndex = 0; firstTierIndex < threshold; firstTierIndex++) {
 })();
 
 const addCurrentPlayToBoard = index => {
-  index = parseInt(index)
-  let firstTierIndex = Math.floor(index / threshold);
-  let secondTierIndex = index % threshold;
-  currentBoard[firstTierIndex][secondTierIndex] = currentPlacement;
+  dimensionIndex = findDimensionalIndex(index)
+  currentBoard[dimensionIndex[0]][dimensionIndex[1]] = currentPlacement;
 }
 
 const populateSquare = event => {
-  let index = parseInt(event.target.id);
-  let firstTierIndex = Math.floor(index / threshold);
-  let secondTierIndex = index % threshold;
-  if (!currentBoard[firstTierIndex][secondTierIndex]){
+  let dimensionIndex = findDimensionalIndex(event.target.id)
+  if (!currentBoard[dimensionIndex[0]][dimensionIndex[1]]){
     event.target.textContent = currentPlacement;
     addCurrentPlayToBoard(event.target.id)
     if (currentPlacement === 'X') {
@@ -50,8 +58,31 @@ const populateSquare = event => {
   })
 })();
 
+const populateVictoryCombinations = index => {
+
+}
+
 //checks victory conditions for any sized board
-const checkVictoryConditions = () => {
+const checkVictoryConditions = (index) => {
 
+  let row = (function () {
+    for (let i = 0; i < currentBoard.length; i++){
+      if (currentBoard[i][0]){
+        if (currentBoard[i].every(currentBoard[i].textContent === currentBoard[0])) {
+          return true;
+        }
+      }
+    }
+    return false;
+  })();
 
+  let column = (function () {
+
+  })();
+
+  let diagonal = (function () {
+
+  })();
+
+  return (row && column && diagonal)
 }
