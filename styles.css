@@ -42,3 +42,18 @@ body {
   cursor: pointer;
   background-color: #888888;
 }
+
+.button {
+  border-radius: 10px;
+  background-color: rgb(196, 0, 0);
+  color: white;
+  width: fit-content;
+  padding: 0.2em 1em;
+  margin: auto;
+  font-size: 1.5em;
+}
+
+.button:hover {
+  cursor: pointer;
+  background-color: rgb(255, 68, 68);
+}
