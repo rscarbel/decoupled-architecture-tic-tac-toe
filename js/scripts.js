@@ -2,16 +2,25 @@ const squares = document.querySelectorAll('.square');
 const squaresIds = [];
 let currentPlacement = 'X'
 let threshold = Math.sqrt(squares.length);
-let turnsTaken = 0
-let aiLevel = 'hard'
+let turnsTaken = 0;
+let aiLevel = 'hard';
 
 let currentBoard = []
-for (let firstTierIndex = 0; firstTierIndex < threshold; firstTierIndex++) {
-  currentBoard.push([]);
-  for (let secondTierIndex = 0; secondTierIndex < threshold; secondTierIndex++) {
-    currentBoard[firstTierIndex][secondTierIndex] = '';
+function reset () {
+  turnsTaken = 0
+  currentPlacement = 'X'
+  currentBoard = []
+  for (let firstTierIndex = 0; firstTierIndex < threshold; firstTierIndex++) {
+    currentBoard.push([]);
+    for (let secondTierIndex = 0; secondTierIndex < threshold; secondTierIndex++) {
+      currentBoard[firstTierIndex][secondTierIndex] = '';
+    }
   }
+  squares.forEach(e => {e.textContent = ''})
 }
+reset()
+
+document.querySelector('#reset').addEventListener('click',() => {reset()})
 
 const findDimensionalIndex = index => {
   index = parseInt(index)
@@ -21,6 +30,7 @@ const findDimensionalIndex = index => {
 }
 
 //IIFE to give squares Ids
+//This is not hard-coded into the html, because this is designed to be decoupled - you can add as many squares as you want, and it will work just fine.
 (function populateIndices () {
   let currentIndex = 0;
   squares.forEach(item => {
