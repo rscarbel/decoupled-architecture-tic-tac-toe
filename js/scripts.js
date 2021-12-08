@@ -4,19 +4,21 @@ let currentPlacement = 'X'
 let threshold = Math.sqrt(squares.length);
 let turnsTaken = 0;
 let aiLevel = 'hard';
+let victory = false;
 
 let currentBoard = []
 function reset () {
-  turnsTaken = 0
-  currentPlacement = 'X'
-  currentBoard = []
+  turnsTaken = 0;
+  currentPlacement = 'X';
+  currentBoard = [];
+  victory = false;
   for (let firstTierIndex = 0; firstTierIndex < threshold; firstTierIndex++) {
     currentBoard.push([]);
     for (let secondTierIndex = 0; secondTierIndex < threshold; secondTierIndex++) {
       currentBoard[firstTierIndex][secondTierIndex] = '';
     }
   }
-  squares.forEach(e => {e.textContent = ''})
+  squares.forEach(e => {e.textContent = ''});
 }
 reset()
 
@@ -42,6 +44,9 @@ const findDimensionalIndex = index => {
 })();
 
 const addCurrentPlayToBoard = index => {
+  if (victory){
+    return
+  }
   dimensionIndex = findDimensionalIndex(index);
   currentBoard[dimensionIndex[0]][dimensionIndex[1]] = currentPlacement;
 }
@@ -60,6 +65,7 @@ const playerPopulateSquare = event => {
   event.target.textContent = currentPlacement;
   addCurrentPlayToBoard(event.target.id)
   if (checkVictoryConditions()) {
+    victory = true;
     alert(`Player ${currentPlacement} won!`)
   } else {
     changePlayer();
