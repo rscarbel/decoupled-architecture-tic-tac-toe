@@ -42,15 +42,19 @@ function testWinningMove(move,player=currentPlacement) {
   return checkVictoryConditions(duplicateBoard);
 }
 
+//the easy ai just attempts 4 random moves to see if any of them cause a victory
+//if no moves cause a victory, the ai just plays randomly
 function aiPlaysEasy (choice=0,attempts=0) {
   attempts++
-  if (!testWinningMove(choice) && (attempts <= 2)){
+  if (!testWinningMove(choice) && (attempts <= 4)){
     aiPlaysEasy(generateSquareChoice(),attempts);
   } else {
     aiPopulateSquare(choice);
   }
 }
 
+//the mediuam ai tests for all possible next moves, and blocks the player if the player will win on their next turn
+//if no move is found, it reverts to easy
 function aiPlaysMedium () {
   testCondition = currentPlacement === 'O' ? 'X':'O';
   for(let i = 0; i < squares.length;i++){
@@ -62,6 +66,8 @@ function aiPlaysMedium () {
   aiPlaysEasy()
 }
 
+//the hard ai tests for all possible next moves and if one causes victory, it will pick that.
+//if no move is found, it reverts to medium
 function aiPlaysHard (choice) {
   for(let i = 0; i < squares.length;i++){
     if (testWinningMove(i,currentPlacement)){
