@@ -4,14 +4,15 @@ let currentPlacement = 'X'
 let threshold = Math.sqrt(squares.length);
 let turnsTaken = 0;
 let aiLevel = 'hard';
-let victory = false;
+let isGameOver = false;
 
 let currentBoard = []
 function reset () {
+  console.log(turnsTaken)
   turnsTaken = 0;
   currentPlacement = 'X';
   currentBoard = [];
-  victory = false;
+  isGameOver = false;
   for (let firstTierIndex = 0; firstTierIndex < threshold; firstTierIndex++) {
     currentBoard.push([]);
     for (let secondTierIndex = 0; secondTierIndex < threshold; secondTierIndex++) {
@@ -44,7 +45,7 @@ const findDimensionalIndex = index => {
 })();
 
 const addCurrentPlayToBoard = index => {
-  if (victory){
+  if (isGameOver){
     return
   }
   dimensionIndex = findDimensionalIndex(index);
@@ -53,20 +54,21 @@ const addCurrentPlayToBoard = index => {
 
 const playerPopulateSquare = event => {
   let dimensionIndex = findDimensionalIndex(event.target.id);
-  if(currentBoard[dimensionIndex[0]][dimensionIndex[1]]) {
-    alert('Please pick a valid square!');
-    return
+  //check if a player has already won
+  if (isGameOver) {
+    return alert('the game is already over!')
+  } else if (currentBoard[dimensionIndex[0]][dimensionIndex[1]]) {
+    return alert('Please pick a valid square!');
   }
   turnsTaken++;
-  if (turnsTaken > squares.length) {
-    alert('the game is already over')
-    return;
-  }
   event.target.textContent = currentPlacement;
   addCurrentPlayToBoard(event.target.id)
-  if (checkVictoryConditions()) {
-    victory = true;
-    alert(`Player ${currentPlacement} won!`)
+  if (turnsTaken >= squares.length) {
+    isGameOver = true
+    return alert('It is a draw!')
+  } else if (checkVictoryConditions()) {
+    isGameOver = true;
+    return alert(`Player ${currentPlacement} won!`)
   } else {
     changePlayer();
     if (turnsTaken < squares.length) {
