@@ -76,11 +76,7 @@ const playerPopulateSquare = event => {
 }
 
 function changePlayer () {
-  if (currentPlacement === 'X') {
-    currentPlacement = 'O';
-  } else {
-    currentPlacement = 'X';
-  }
+    currentPlacement = currentPlacement === 'X' ? 'O' : 'X';
 }
 
 //IIFE to add event listeners to squares
